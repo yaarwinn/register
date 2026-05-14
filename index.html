@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>YaarWin India | Play & Win Online</title>
 
-<meta name="description" content="Join YaarWin India. Play online and withdraw instantly via UPI, Paytm & PhonePe. Trusted platform for Indian players.">
+<meta name="description" content="Join YaarWin India. Play online and withdraw instantly via UPI, Paytm & PhonePe.">
 
 <style>
 body{
@@ -14,6 +14,7 @@ font-family:Arial, sans-serif;
 background:#0d0d0d;
 color:#fff;
 padding-top:50px;
+overflow-x:hidden;
 }
 
 /* TOP BAR */
@@ -33,7 +34,6 @@ z-index:1000;
 header{
 text-align:center;
 padding:60px 20px;
-background:linear-gradient(#000,#111);
 }
 header h1{
 color:#ffcc00;
@@ -81,7 +81,6 @@ color:#000;
 padding:15px 20px;
 border-radius:50px;
 font-weight:bold;
-text-decoration:none;
 cursor:pointer;
 }
 
@@ -96,107 +95,102 @@ height:100vh;
 z-index:2000;
 background:#000;
 }
+
+/* LOADER */
+#loader{
+position:absolute;
+top:50%;
+left:50%;
+transform:translate(-50%,-50%);
+font-size:20px;
+color:#ffcc00;
+}
+
+/* IFRAME */
 #embedContainer iframe{
 width:100%;
 height:100%;
 border:none;
+display:none;
+}
+
+/* BACK BUTTON */
+.back-btn{
+position:absolute;
+top:15px;
+left:15px;
+background:#ffcc00;
+color:#000;
+padding:8px 15px;
+border-radius:20px;
+font-weight:bold;
+cursor:pointer;
+z-index:3000;
 }
 </style>
 </head>
 
 <body>
 
-<div class="topbar">
-🎁 New Users Get Bonus Today
-</div>
+<div class="topbar">🎁 New Users Get Bonus Today</div>
 
-<header id="mainContent">
-<h1>YaarWin – Trusted Online Betting Platform in India 🇮🇳</h1>
-<p>💸 Instant Withdrawals | 🎁 Daily Bonuses | 📱 Play on Mobile</p>
+<header class="mainContent">
+<h1>YaarWin – Trusted Online Betting Platform 🇮🇳</h1>
+<p>💸 Instant Withdrawals | 🎁 Daily Bonuses</p>
 
 <div class="cta">
 <a onclick="openSite()">JOIN & GET BONUS</a>
 </div>
-
-<p style="color:#ffcc00;">✔ Secure & Fast Payments</p>
 </header>
 
 <div class="section mainContent">
 <h2>🎯 Why Choose YaarWin?</h2>
 <div class="grid">
-<div class="card">🎁 Welcome Bonus for New Users</div>
-<div class="card">⚡ Fast Withdrawals (UPI / Paytm / PhonePe)</div>
-<div class="card">📱 24/7 Mobile Access</div>
+<div class="card">🎁 Welcome Bonus</div>
+<div class="card">⚡ Fast Withdrawals</div>
+<div class="card">📱 Mobile Friendly</div>
 </div>
 </div>
 
-<div class="section mainContent">
-<h2>📸 Recent Withdrawals</h2>
-<div class="grid">
-<div class="card">
-<img src="upi-proof.jpg" style="width:100%;border-radius:10px">
-<p>₹4,500 withdrawal via UPI</p>
-</div>
-<div class="card">
-<img src="paytm-proof.jpg" style="width:100%;border-radius:10px">
-<p>₹2,800 withdrawal via Paytm</p>
-</div>
-</div>
-</div>
+<a class="float-btn" onclick="openSite()">JOIN NOW</a>
 
-<div class="section mainContent">
-<h2>💬 Player Feedback</h2>
-<div class="grid">
-<div class="card">
-<p>"Withdrew ₹3,000 through UPI in 10 mins. Smooth experience."</p>
-<strong>- Rahul (Delhi)</strong>
-</div>
-<div class="card">
-<p>"Easy to use and fast support. Recommended."</p>
-<strong>- Ankit (Mumbai)</strong>
-</div>
-</div>
-</div>
-
-<div class="section mainContent">
-<h2>🪜 How to Start</h2>
-<div class="grid">
-<div class="card">1️⃣ Register Account</div>
-<div class="card">2️⃣ Deposit via UPI</div>
-<div class="card">3️⃣ Play & Withdraw Anytime</div>
-</div>
-</div>
-
-<div class="section mainContent">
-<h2>🔒 Safe & Secure</h2>
-<div class="grid">
-<div class="card">✔ Encrypted Transactions</div>
-<div class="card">✔ Verified Platform</div>
-<div class="card">✔ Active Support Team</div>
-</div>
-</div>
-
-<a class="float-btn" onclick="openSite()">
-JOIN NOW
-</a>
-
-<footer class="mainContent" style="text-align:center;padding:20px;color:#777">
-<p>© 2026 YaarWin. All rights reserved.</p>
-<p>18+ Only. Play responsibly.</p>
-</footer>
-
-<!-- EMBED CONTAINER -->
+<!-- EMBED -->
 <div id="embedContainer">
+<div class="back-btn" onclick="closeSite()">← Back</div>
+<div id="loader">Loading secure connection...</div>
 <iframe id="yaarFrame"></iframe>
 </div>
 
 <script>
 function openSite(){
 document.querySelectorAll(".mainContent").forEach(el=>el.style.display="none");
-document.getElementById("embedContainer").style.display="block";
 
-document.getElementById("yaarFrame").src =
-"https://yaarwin.org/#/register?invitationCode=73432649713";
+let container = document.getElementById("embedContainer");
+let frame = document.getElementById("yaarFrame");
+let loader = document.getElementById("loader");
+
+container.style.display="block";
+
+frame.src = "https://yaarwin.org/#/register?invitationCode=73432649713";
+
+// Show iframe when loaded
+frame.onload = function(){
+loader.style.display="none";
+frame.style.display="block";
+};
+}
+
+// fallback if iframe blocked
+setTimeout(()=>{
+let frame = document.getElementById("yaarFrame");
+if(frame.style.display === "none"){
+window.location.href = frame.src;
+}
+},5000);
+
+function closeSite(){
+document.getElementById("embedContainer").style.display="none";
+document.querySelectorAll(".mainContent").forEach(el=>el.style.display="block");
 }
 </script>
 
